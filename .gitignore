@@ -6,3 +6,7 @@ __pycache__/
 
 # Ignoroi myös .pytest_cache -hakemistot (alkaa pisteellä)
 .pytest_cache/
+
+# Ignoroi  myös 
+
+.DS_Store
