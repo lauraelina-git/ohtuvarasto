@@ -1,0 +1,8 @@
+# Ignoroi kaikki .tmp-päätteiset tiedostot repositorion juurihakemistosta
+/*.tmp
+
+# Ignoroi kaikki __pycache__-hakemistot missä tahansa hakemistorakenteessa
+__pycache__/
+
+# Ignoroi myös .pytest_cache -hakemistot (alkaa pisteellä)
+.pytest_cache/
