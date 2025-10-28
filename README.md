@@ -1,3 +1,2 @@
 # ohtuvarasto
-
-![GHA_workflow_badge](https://github.com/lauraelina_git/ohtuvarasto/actions/workflows/main.yml/badge.svg)
+[![CI](https://github.com/lauraelina-git/ohtuvarasto/actions/workflows/main.yml/badge.svg)](https://github.com/lauraelina-git/ohtuvarasto/actions/workflows/main.yml)
