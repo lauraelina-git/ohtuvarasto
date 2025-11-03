@@ -1,9 +1,25 @@
 from varasto import Varasto
 
 
+def tarkista_varasto(varasto, nimi, lisays, otto, tulosta=True, debug=True):  # liikaa argumentteja
+    if tulosta:
+        print(f"{nimi} ennen muutoksia: {varasto}")
+        if debug:
+            if lisays > 0:
+                varasto.lisaa_varastoon(lisays)
+                print(f"Lisättiin {lisays}")
+                if otto > 0:
+                    varasto.ota_varastosta(otto)
+                    print(f"Otetaan {otto}")
+                    if varasto.saldo > 100:
+                        print("Varasto yli täynnä!")  # 3 sisäkkäistä lohkoa
+    print(f"{nimi} jälkeen: {varasto}")
+
 def main():
     mehua = Varasto(100.0)
     olutta = Varasto(100.0, 20.2)
+
+    tarkista_varasto(mehua, "Mehuvarasto", 50.7, 3.14)
 
     print("Luonnin jälkeen:")
     print(f"Mehuvarasto: {mehua}")
