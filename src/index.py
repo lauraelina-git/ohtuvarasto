@@ -1,35 +1,23 @@
 from varasto import Varasto
 
 
-def tarkista_varasto(varasto, nimi, lisays, otto, tulosta=True, debug=True):  # liikaa argumentteja
-    if tulosta:
-        print(f"{nimi} ennen muutoksia: {varasto}")
-        if debug:
-            if lisays > 0:
-                varasto.lisaa_varastoon(lisays)
-                print(f"Lisättiin {lisays}")
-                if otto > 0:
-                    varasto.ota_varastosta(otto)
-                    print(f"Otetaan {otto}")
-                    if varasto.saldo > 100:
-                        print("Varasto yli täynnä!")  # 3 sisäkkäistä lohkoa
-    print(f"{nimi} jälkeen: {varasto}")
-
-def main():
-    mehua = Varasto(100.0)
-    olutta = Varasto(100.0, 20.2)
-
-    tarkista_varasto(mehua, "Mehuvarasto", 50.7, 3.14)
-
+def tulosta_alustustilanne(mehua, olutta):
+    """Tulostaa varastojen alkuperäisen tilanteen."""
     print("Luonnin jälkeen:")
     print(f"Mehuvarasto: {mehua}")
     print(f"Olutvarasto: {olutta}")
 
+
+def testaa_olut_getterit(olutta):
+    """Tulostaa olutvaraston getterien tulokset."""
     print("Olut getterit:")
     print(f"saldo = {olutta.saldo}")
     print(f"tilavuus = {olutta.tilavuus}")
     print(f"paljonko_mahtuu = {olutta.paljonko_mahtuu()}")
 
+
+def testaa_mehu_setterit(mehua):
+    """Testaa mehuvaraston lisäystä ja ottoa."""
     print("Mehu setterit:")
     print("Lisätään 50.7")
     mehua.lisaa_varastoon(50.7)
@@ -38,36 +26,76 @@ def main():
     mehua.ota_varastosta(3.14)
     print(f"Mehuvarasto: {mehua}")
 
-    print("Virhetilanteita:")
+
+def testaa_varaston_negatiivinen_tilavuus():
+    """Testaa negatiivisen tilavuuden käsittelyä."""
     print("Varasto(-100.0);")
     huono = Varasto(-100.0)
     print(huono)
 
+
+def testaa_varaston_negatiivinen_saldo():
+    """Testaa negatiivisen aloitussaldon käsittelyä."""
     print("Varasto(100.0, -50.7)")
     huono = Varasto(100.0, -50.7)
     print(huono)
 
+
+def testaa_liian_suuri_lisays(olutta):
+    """Testaa liian suuren lisäyksen käsittelyä."""
+    print("Liian suuri lisäys:")
     print(f"Olutvarasto: {olutta}")
-    print("olutta.lisaa_varastoon(1000.0)")
     olutta.lisaa_varastoon(1000.0)
     print(f"Olutvarasto: {olutta}")
 
+
+def testaa_negatiivinen_lisays(mehua):
+    """Testaa negatiivisen lisäyksen käsittelyä."""
+    print("Negatiivinen lisäys:")
     print(f"Mehuvarasto: {mehua}")
-    print("mehua.lisaa_varastoon(-666.0)")
     mehua.lisaa_varastoon(-666.0)
     print(f"Mehuvarasto: {mehua}")
 
-    print(f"Olutvarasto: {olutta}")
-    print("olutta.ota_varastosta(1000.0)")
+
+def testaa_liian_suuri_otto(olutta):
+    """Testaa liian suuren oton käsittelyä."""
+    print("Liian suuri otto:")
     saatiin = olutta.ota_varastosta(1000.0)
     print(f"saatiin {saatiin}")
     print(f"Olutvarasto: {olutta}")
 
-    print(f"Mehuvarasto: {mehua}")
-    print("mehua.otaVarastosta(-32.9)")
+
+def testaa_negatiivinen_otto(mehua):
+    """Testaa negatiivisen oton käsittelyä."""
+    print("Negatiivinen otto:")
     saatiin = mehua.ota_varastosta(-32.9)
     print(f"saatiin {saatiin}")
     print(f"Mehuvarasto: {mehua}")
+
+
+def aja_kaikki_testit(mehua, olutta):
+    """Ajaa perustoiminnallisuudet."""
+    tulosta_alustustilanne(mehua, olutta)
+    testaa_olut_getterit(olutta)
+    testaa_mehu_setterit(mehua)
+
+
+def aja_virhetestit(mehua, olutta):
+    """Ajaa virhetilanteet."""
+    testaa_varaston_negatiivinen_tilavuus()
+    testaa_varaston_negatiivinen_saldo()
+    testaa_liian_suuri_lisays(olutta)
+    testaa_negatiivinen_lisays(mehua)
+    testaa_liian_suuri_otto(olutta)
+    testaa_negatiivinen_otto(mehua)
+
+
+def main():
+    """Pääfunktio."""
+    mehua = Varasto(100.0)
+    olutta = Varasto(100.0, 20.2)
+    aja_kaikki_testit(mehua, olutta)
+    aja_virhetestit(mehua, olutta)
 
 
 if __name__ == "__main__":
