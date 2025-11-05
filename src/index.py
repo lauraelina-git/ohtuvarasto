@@ -96,8 +96,6 @@ def main():
     olutta = Varasto(100.0, 20.2)
     aja_kaikki_testit(mehua, olutta)
     aja_virhetestit(mehua, olutta)
-    print("Tämä rivi on tahallisen pitkä, jotta se ylittää konfiguroidun max-line-length rajan ja aiheuttaa Pylint-virheen........................................")
-
 
 if __name__ == "__main__":
     main()
