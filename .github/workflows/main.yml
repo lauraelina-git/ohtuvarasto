@@ -27,4 +27,4 @@ jobs:
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       - name: Run Pylint
-        run: poetry run pylint src --fail-under=9.0
+        run: poetry run pylint src --fail-under=10.0
