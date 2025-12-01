@@ -1,10 +1,11 @@
 """Flask web application for warehouse management."""
 
+import os
 from flask import Flask, render_template, request, redirect, url_for, flash
 from ohtuvarasto import Ohtuvarasto
 
 app = Flask(__name__)
-app.secret_key = "ohtuvarasto-secret-key"
+app.secret_key = os.environ.get("SECRET_KEY", os.urandom(24))
 
 # Global warehouse manager instance
 warehouse_manager = Ohtuvarasto()
