@@ -11,6 +11,15 @@ app.secret_key = os.environ.get("SECRET_KEY", os.urandom(24))
 warehouse_manager = Ohtuvarasto()
 
 
+def get_warehouse_or_redirect(warehouse_id):
+    """Fetch warehouse by ID. Returns (warehouse, None) if found, or (None, redirect_response) if not."""
+    warehouse = warehouse_manager.get_warehouse(warehouse_id)
+    if warehouse is None:
+        flash("Warehouse not found.", "error")
+        return None, redirect(url_for("index"))
+    return warehouse, None
+
+
 @app.route("/")
 def index():
     """Display list of all warehouses."""
@@ -34,10 +43,9 @@ def create_warehouse():
 @app.route("/warehouse/<int:warehouse_id>")
 def view_warehouse(warehouse_id):
     """View a specific warehouse and its products."""
-    warehouse = warehouse_manager.get_warehouse(warehouse_id)
-    if warehouse is None:
-        flash("Warehouse not found.", "error")
-        return redirect(url_for("index"))
+    warehouse, redirect_response = get_warehouse_or_redirect(warehouse_id)
+    if redirect_response:
+        return redirect_response
     products = warehouse_manager.get_products(warehouse_id)
     return render_template(
         "view_warehouse.html",
@@ -50,10 +58,9 @@ def view_warehouse(warehouse_id):
 @app.route("/warehouse/<int:warehouse_id>/edit", methods=["GET", "POST"])
 def edit_warehouse(warehouse_id):
     """Edit a warehouse name."""
-    warehouse = warehouse_manager.get_warehouse(warehouse_id)
-    if warehouse is None:
-        flash("Warehouse not found.", "error")
-        return redirect(url_for("index"))
+    warehouse, redirect_response = get_warehouse_or_redirect(warehouse_id)
+    if redirect_response:
+        return redirect_response
 
     if request.method == "POST":
         new_name = request.form.get("name", "").strip()
@@ -71,13 +78,12 @@ def edit_warehouse(warehouse_id):
 @app.route("/warehouse/<int:warehouse_id>/delete", methods=["POST"])
 def delete_warehouse(warehouse_id):
     """Delete a warehouse."""
-    warehouse = warehouse_manager.get_warehouse(warehouse_id)
-    if warehouse:
-        name = warehouse["name"]
-        warehouse_manager.delete_warehouse(warehouse_id)
-        flash(f"Warehouse '{name}' deleted.", "success")
-    else:
-        flash("Warehouse not found.", "error")
+    warehouse, redirect_response = get_warehouse_or_redirect(warehouse_id)
+    if redirect_response:
+        return redirect_response
+    name = warehouse["name"]
+    warehouse_manager.delete_warehouse(warehouse_id)
+    flash(f"Warehouse '{name}' deleted.", "success")
     return redirect(url_for("index"))
 
 
